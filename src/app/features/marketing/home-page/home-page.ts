@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SITE_ORIGIN, SeoService } from '../../../core/seo/seo.service';
+import { SeoService } from '../../../core/seo/seo.service';
+import { SITE_URL } from '../../../core/site.config';
 import { Icon, IconName } from '../../../shared/icon/icon';
 import { GithubMark } from '../../../shared/github-mark/github-mark';
 import { SiteFooter } from '../../../shared/site-footer/site-footer';
@@ -61,7 +62,7 @@ export default class HomePage {
     {
       question: 'What can the token access?',
       answer:
-        'A token with Gists access can read, create, edit and delete all of your gists — GitHub can’t limit it to one. CmdVault only ever writes to its own vault gist. Choose “No repositories”, Gists read and write, and an expiry of 90 days or less.',
+        'A token with Gists access can read, create, edit and delete all of your gists — GitHub can’t limit it to one. GistVault only ever writes to its own vault gist. Choose “No repositories”, Gists read and write, and an expiry of 90 days or less.',
     },
     {
       question: 'Why do I paste the token again after a reload?',
@@ -71,26 +72,26 @@ export default class HomePage {
     {
       question: 'What happens if I edit on two devices?',
       answer:
-        'Before every save CmdVault fetches the latest vault and merges changes per command. If the same command changed in both places, the newer one wins and the other is kept as a “conflicted copy”.',
+        'Before every save GistVault fetches the latest vault and merges changes per command. If the same command changed in both places, the newer one wins and the other is kept as a “conflicted copy”.',
     },
     {
       question: 'Does it cost anything?',
       answer:
-        'No. CmdVault is free and open source, and your data lives in your own GitHub account. There is no server to pay for.',
+        'No. GistVault is free and open source, and your data lives in your own GitHub account. There is no server to pay for.',
     },
   ];
 
   constructor() {
     inject(SeoService).set({
-      title: 'CmdVault — save the commands you look up twice',
+      title: 'GistVault — save the commands you look up twice',
       description:
         'Free, open-source command vault. Save, tag and copy shell commands in a secret gist on your own GitHub account. No server, no database.',
       path: '/',
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
-        name: 'CmdVault',
-        url: SITE_ORIGIN,
+        name: 'GistVault',
+        url: SITE_URL,
         applicationCategory: 'DeveloperApplication',
         operatingSystem: 'Web',
         offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD' },

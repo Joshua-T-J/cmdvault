@@ -1,6 +1,6 @@
 # Code of Conduct
 
-CmdVault is a small, friendly open-source project. We want everyone who takes part — in issues,
+GistVault is a small, friendly open-source project. We want everyone who takes part — in issues,
 pull requests, discussions or anywhere else the project meets — to feel welcome and safe.
 
 ## Expected behaviour

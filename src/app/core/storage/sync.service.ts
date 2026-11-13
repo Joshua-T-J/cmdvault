@@ -10,8 +10,8 @@ export type SyncStatus = 'idle' | 'loading' | 'saving' | 'synced' | 'offline' | 
 
 const SAVE_DEBOUNCE_MS = 1500;
 const REVALIDATE_INTERVAL_MS = 5 * 60 * 1000;
-const CHANNEL = 'cmdvault';
-const LOCK = 'cmdvault-save';
+const CHANNEL = 'gistvault';
+const LOCK = 'gistvault-save';
 
 /**
  * Owns the vault data and keeps it in step with the gist:
@@ -223,7 +223,7 @@ export class SyncService {
     const offline = isGitHubError(err, 'transient') && err.status === 0;
     this.#status.set(offline ? 'offline' : 'error');
     this.#error.set(offline ? 'Offline — changes will sync when you’re back.' : describeError(err));
-    console.error('[cmdvault] sync failed', redact(err instanceof Error ? err.message : err));
+    console.error('[gistvault] sync failed', redact(err instanceof Error ? err.message : err));
   }
 
   readonly #onFocus = () => void this.revalidate();

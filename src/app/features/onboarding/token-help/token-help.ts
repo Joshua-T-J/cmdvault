@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { Icon } from '../../../shared/icon/icon';
 
 export const TOKEN_URL =
-  'https://github.com/settings/personal-access-tokens/new?name=CmdVault&description=CmdVault%20vault%20access&expires_in=90&gists=write';
+  'https://github.com/settings/personal-access-tokens/new?name=GistVault&description=GistVault%20vault%20access&expires_in=90&gists=write';
 
 @Component({
   selector: 'app-token-help',

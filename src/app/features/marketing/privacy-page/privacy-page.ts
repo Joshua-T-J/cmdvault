@@ -14,7 +14,7 @@ export default class PrivacyPage {
   protected readonly advisoryUrl = SECURITY_ADVISORY_URL;
   protected readonly toc: readonly TocEntry[] = [
     { id: 'summary', label: 'The short version' },
-    { id: 'data', label: 'What CmdVault handles' },
+    { id: 'data', label: 'What GistVault handles' },
     { id: 'storage', label: 'Where it is stored' },
     { id: 'visibility', label: 'Who can see your vault' },
     { id: 'not-collected', label: 'What we don’t collect' },
@@ -25,9 +25,9 @@ export default class PrivacyPage {
 
   constructor() {
     inject(SeoService).set({
-      title: 'Privacy policy · CmdVault',
+      title: 'Privacy policy · GistVault',
       description:
-        'CmdVault has no server and no database. Your commands live in a secret gist on your GitHub account. Here is exactly what is stored, where, and for how long.',
+        'GistVault has no server and no database. Your commands live in a secret gist on your GitHub account. Here is exactly what is stored, where, and for how long.',
       path: '/privacy',
     });
   }

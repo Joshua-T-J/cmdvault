@@ -9,7 +9,7 @@ import { ThemePicker } from '../../../shared/theme-picker/theme-picker';
   imports: [RouterLink, Logo, GithubMark, ThemePicker],
   template: `
     <header class="bar">
-      <a routerLink="/" class="home-link" aria-label="CmdVault home"><app-logo /></a>
+      <a routerLink="/" class="home-link" aria-label="GistVault home"><app-logo /></a>
       <nav aria-label="Main">
         <ul>
           <li><a routerLink="/" fragment="features">Features</a></li>

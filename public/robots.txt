@@ -1,3 +1,2 @@
 User-agent: *
 Disallow: /api/
-Sitemap: https://cmdvault.vercel.app/sitemap.xml

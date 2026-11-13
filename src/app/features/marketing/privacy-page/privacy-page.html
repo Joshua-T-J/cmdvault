@@ -1,7 +1,7 @@
 <app-doc-layout
   eyebrow="privacy"
   heading="Privacy policy"
-  lead="CmdVault has no server and no database. We can’t see your commands or your token, because they never reach us. This page explains exactly what is stored, where, and for how long."
+  lead="GistVault has no server and no database. We can’t see your commands or your token, because they never reach us. This page explains exactly what is stored, where, and for how long."
   updated="13 November 2026"
   path="/privacy"
   [toc]="toc"
@@ -14,7 +14,7 @@
           Your commands are saved in <strong>one secret gist on your own GitHub account</strong>.
         </li>
         <li>
-          Your browser talks to GitHub directly. Nothing passes through a CmdVault server — there
+          Your browser talks to GitHub directly. Nothing passes through a GistVault server — there
           isn’t one.
         </li>
         <li>Your token stays in this tab’s memory unless you choose to remember it for the tab.</li>
@@ -25,8 +25,8 @@
   </section>
 
   <section id="data">
-    <h2>What CmdVault handles</h2>
-    <p>CmdVault runs entirely in your browser. While you use it, it works with:</p>
+    <h2>What GistVault handles</h2>
+    <p>GistVault runs entirely in your browser. While you use it, it works with:</p>
     <ul>
       <li>
         <strong>Your commands</strong> — titles, command text, tags, shell, notes, whether each one
@@ -56,7 +56,7 @@
     <div class="table-wrap">
       <table class="data-table">
         <caption class="visually-hidden">
-          What CmdVault stores, where, and for how long
+          What GistVault stores, where, and for how long
         </caption>
         <thead>
           <tr>
@@ -68,7 +68,7 @@
         <tbody>
           <tr>
             <td>Commands</td>
-            <td>Secret gist on your GitHub account (<code>cmdvault.json</code>)</td>
+            <td>Secret gist on your GitHub account (<code>gistvault.json</code>)</td>
             <td>Until you delete them or the gist. GitHub keeps gist revision history.</td>
           </tr>
           <tr>
@@ -104,17 +104,17 @@
     <h2>Who can see your vault</h2>
     <p>
       A secret gist is <strong>unlisted, not private</strong>. It doesn’t appear in search or on
-      your profile, but <strong>anyone who has its URL can read it</strong>. CmdVault never shows
+      your profile, but <strong>anyone who has its URL can read it</strong>. GistVault never shows
       that URL in its interface.
     </p>
     <ul>
-      <li><strong>You</strong> — through CmdVault or directly on gist.github.com.</li>
+      <li><strong>You</strong> — through GistVault or directly on gist.github.com.</li>
       <li><strong>GitHub</strong> — which hosts the gist under its own privacy statement.</li>
       <li><strong>Anyone with the link</strong> — if you share it, or it leaks.</li>
     </ul>
     <p>
-      That is why CmdVault checks for passwords, API keys and tokens before every save. Keep secrets
-      out of your vault — use a placeholder such as
+      That is why GistVault checks for passwords, API keys and tokens before every save. Keep
+      secrets out of your vault — use a placeholder such as
       <code>{{ '{{' }}API_KEY{{ '}}' }}</code> instead. See the
       <a routerLink="/security">security model</a> for details.
     </p>
@@ -123,7 +123,7 @@
   <section id="not-collected">
     <h2>What we don’t collect</h2>
     <ul class="check-list">
-      <li>No CmdVault accounts, emails or passwords.</li>
+      <li>No GistVault accounts, emails or passwords.</li>
       <li>No cookies.</li>
       <li>No analytics, tracking pixels or session recording inside the app.</li>
       <li>No third-party scripts, ads or CDNs — fonts are served from our own domain.</li>
@@ -167,7 +167,7 @@
         or <a href="https://github.com/settings/tokens" rel="noopener">classic tokens</a>.
       </li>
       <li>
-        <strong>Delete your data</strong> — delete the gist described as “CmdVault data” on
+        <strong>Delete your data</strong> — delete the gist described as “GistVault data” on
         <a href="https://gist.github.com/" rel="noopener">gist.github.com</a>.
       </li>
       <li>

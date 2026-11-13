@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Service, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { GistApiService } from '../github/gist-api.service';
-import { GistDto, GistSummaryDto } from '../github/gist.models';
+import { GistDto, GistFilesPatch, GistSummaryDto } from '../github/gist.models';
 import {
   VAULT_README,
   emptyVault,
@@ -12,6 +12,8 @@ import {
   vaultSizeLevel,
 } from './vault-codec';
 import {
+  LEGACY_VAULT_FILE,
+  LEGACY_VAULT_MARKER,
   VAULT_DESCRIPTION,
   VAULT_FILE,
   VAULT_MARKER,
@@ -19,8 +21,8 @@ import {
   VaultDoc,
 } from './vault.models';
 
-const GIST_ID_KEY = 'cmdvault.gist-id';
-const DEVICE_ID_KEY = 'cmdvault.device-id';
+const GIST_ID_KEY = 'gistvault.gist-id';
+const DEVICE_ID_KEY = 'gistvault.device-id';
 const MAX_LIST_PAGES = 30;
 
 export type VaultReadResult =
@@ -65,7 +67,7 @@ export class GistRepository {
     return id;
   }
 
-  /** Pages through the user's gists looking for the CmdVault marker. */
+  /** Pages through the user's gists looking for the GistVault marker. */
   async searchVault(): Promise<string | null> {
     for (let page = 1; page <= MAX_LIST_PAGES; page++) {
       const res = await firstValueFrom(this.#api.listGists(page));
@@ -114,14 +116,33 @@ export class GistRepository {
   async write(id: string, doc: VaultDoc): Promise<string | null> {
     const json = serializeVault(doc);
     if (vaultSizeLevel(vaultSize(json)) === 'block') throw new VaultTooLargeError();
+
+    // A vault created under the old CmdVault name is upgraded in the same write: the data moves
+    // to the new file name, the old file is deleted, and the description and README are updated.
+    const upgrading = this.#legacyIds.has(id);
+    const files: GistFilesPatch = upgrading
+      ? {
+          [VAULT_FILE]: { content: json },
+          [LEGACY_VAULT_FILE]: null,
+          [VAULT_README_FILE]: { content: VAULT_README },
+        }
+      : { [VAULT_FILE]: { content: json } };
     const gist = await firstValueFrom(
-      this.#api.updateGist(id, { [VAULT_FILE]: { content: json } }),
+      this.#api.updateGist(id, files, upgrading ? VAULT_DESCRIPTION : undefined),
     );
+    if (upgrading) this.#legacyIds.delete(id);
     return gist.history?.[0]?.version ?? null;
   }
 
+  /** Gist IDs whose data is still in the pre-rename file and needs upgrading on the next save. */
+  readonly #legacyIds = new Set<string>();
+
   async #fileContent(gist: GistDto): Promise<string | null> {
-    const file = gist.files[VAULT_FILE];
+    let file = gist.files[VAULT_FILE];
+    if (!file && gist.files[LEGACY_VAULT_FILE]) {
+      file = gist.files[LEGACY_VAULT_FILE];
+      this.#legacyIds.add(gist.id);
+    }
     if (!file) return null;
     if (file.truncated) return firstValueFrom(this.#api.getRaw(file.raw_url));
     return file.content ?? null;
@@ -129,5 +150,9 @@ export class GistRepository {
 }
 
 function isVaultGist(gist: GistSummaryDto): boolean {
-  return !gist.public && !!gist.files[VAULT_FILE] && !!gist.description?.includes(VAULT_MARKER);
+  if (gist.public) return false;
+  const current = !!gist.files[VAULT_FILE] && !!gist.description?.includes(VAULT_MARKER);
+  const legacy =
+    !!gist.files[LEGACY_VAULT_FILE] && !!gist.description?.includes(LEGACY_VAULT_MARKER);
+  return current || legacy;
 }

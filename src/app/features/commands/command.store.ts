@@ -179,7 +179,7 @@ export class CommandStore {
   }
 
   /**
-   * Imports CmdVault JSON (a vault file or a bare array). Skips exact duplicates and replaces
+   * Imports GistVault JSON (a vault file or a bare array). Skips exact duplicates and replaces
    * anything that looks like a secret with {{API_KEY}} before it can reach the gist.
    */
   importJson(json: string): ImportResult {

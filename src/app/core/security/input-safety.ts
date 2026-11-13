@@ -2,7 +2,7 @@
  * Input validation and sanitising for user-supplied and untrusted text (the editor, JSON imports,
  * and the gist itself, which anyone holding a token could edit).
  *
- * Angular already escapes every `{{ }}` interpolation and property binding, and CmdVault never
+ * Angular already escapes every `{{ }}` interpolation and property binding, and GistVault never
  * renders user text as HTML. These checks are defence in depth:
  * - markup and script URLs are rejected in plain-text fields (title, notes, tags),
  * - invisible and bidirectional control characters are rejected or stripped, because they can

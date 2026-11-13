@@ -18,20 +18,20 @@ interface Credit {
     <app-doc-layout
       eyebrow="licenses"
       heading="Open-source licenses"
-      lead="CmdVault is free software under the MIT License, and it is built on other people’s open-source work. This page credits them and links to every licence text that ships with the app."
+      lead="GistVault is free software under the MIT License, and it is built on other people’s open-source work. This page credits them and links to every licence text that ships with the app."
       updated="13 November 2026"
       path="/licenses"
       [toc]="toc"
     >
-      <section id="cmdvault">
-        <h2>CmdVault</h2>
+      <section id="gistvault">
+        <h2>GistVault</h2>
         <p>
-          Copyright © 2026 Joshua T J and CmdVault contributors. Released under the
+          Copyright © 2026 Joshua T J and GistVault contributors. Released under the
           <strong>MIT License</strong>: you may use, copy, modify and distribute it, including
           commercially, as long as the copyright notice and licence are kept.
         </p>
         <p>
-          <a href="/licenses/cmdvault.txt">Read the MIT License</a> ·
+          <a href="/licenses/gistvault.txt">Read the MIT License</a> ·
           <a [href]="licenseUrl" rel="noopener">View it on GitHub</a>
         </p>
       </section>
@@ -75,8 +75,8 @@ interface Credit {
       <section id="icons">
         <h2>Icons and artwork</h2>
         <p>
-          The CmdVault logo and interface icons are original line drawings made for this project and
-          are covered by CmdVault’s MIT License.
+          The GistVault logo and interface icons are original line drawings made for this project
+          and are covered by GistVault’s MIT License.
         </p>
         <p>
           The GitHub mark used on “Connect GitHub” buttons comes from
@@ -91,8 +91,10 @@ interface Credit {
         <p>
           GitHub and the GitHub logo are trademarks of GitHub, Inc. Vercel is a trademark of Vercel
           Inc. Other names are trademarks of their respective owners. They are used here only to
-          describe what CmdVault works with.
-          <strong>CmdVault is not affiliated with, endorsed by or sponsored by GitHub, Inc.</strong>
+          describe what GistVault works with.
+          <strong
+            >GistVault is not affiliated with, endorsed by or sponsored by GitHub, Inc.</strong
+          >
         </p>
       </section>
     </app-doc-layout>
@@ -108,7 +110,7 @@ export default class LicensesPage {
   protected readonly licenseUrl = LICENSE_URL;
 
   protected readonly toc: readonly TocEntry[] = [
-    { id: 'cmdvault', label: 'CmdVault' },
+    { id: 'gistvault', label: 'GistVault' },
     { id: 'fonts', label: 'Fonts' },
     { id: 'software', label: 'Software' },
     { id: 'icons', label: 'Icons and artwork' },
@@ -162,9 +164,9 @@ export default class LicensesPage {
 
   constructor() {
     inject(SeoService).set({
-      title: 'Open-source licenses · CmdVault',
+      title: 'Open-source licenses · GistVault',
       description:
-        'CmdVault is MIT-licensed and built on Angular, RxJS and OFL-licensed fonts. Credits, licence texts and trademark notes.',
+        'GistVault is MIT-licensed and built on Angular, RxJS and OFL-licensed fonts. Credits, licence texts and trademark notes.',
       path: '/licenses',
     });
   }

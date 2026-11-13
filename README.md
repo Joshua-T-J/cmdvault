@@ -1,8 +1,8 @@
-# CmdVault
+# GistVault
 
 > Save the shell commands you look up twice — in a secret gist on your own GitHub account.
 
-CmdVault is a free, open-source web app for storing, tagging, searching and copying CLI commands
+GistVault is a free, open-source web app for storing, tagging, searching and copying CLI commands
 (git, docker, kubectl, anything). There is **no server and no database**: your commands live in one
 secret gist that belongs to you, and your browser talks to GitHub directly.
 
@@ -14,11 +14,11 @@ secret gist that belongs to you, and your browser talks to GitHub directly.
 
 > [!IMPORTANT]
 > A secret gist is **unlisted, not private**. Anyone with its URL can read it. Don't store real
-> secrets in CmdVault — use placeholders. See the in-app **Security model** page (`/security`).
+> secrets in GistVault — use placeholders. See the in-app **Security model** page (`/security`).
 
 ## Getting started
 
-Requirements: Node.js 22.22+ or 24.15+.
+Requirements: Node.js 22.22+, 24.15+ or 26 (Vercel builds use 24.x, pinned in `package.json`).
 
 ```bash
 npm install
@@ -33,7 +33,7 @@ no repositories, 90-day expiry recommended). The Connect wizard in the app walks
 | Command | What it does |
 |---|---|
 | `npm start` | Dev server with live reload |
-| `npm run build` | Production build into `dist/cmdvault/browser`, plus licence files |
+| `npm run build` | Production build into `dist/gistvault/browser`, plus licence files |
 | `npm test` | Security check, then unit tests (Vitest) |
 | `npm run check:security` | Fails on unsafe HTML APIs or hidden Unicode characters in `src/` |
 | `npm run format` | Format source files with Prettier |
@@ -58,14 +58,9 @@ components, signals, `input()`/`output()`, native control flow, Signal Forms, an
 
 ## Deploying
 
-The app is a static site. On Vercel, import the repository; `vercel.json` sets the build command,
-output folder, SPA rewrites and security headers. Other static hosts work too — serve
-`dist/cmdvault/browser` with a fallback to `index.html`.
-
-Before publishing your own deployment, replace `OWNER/REPO` in
-[`src/app/core/site.config.ts`](src/app/core/site.config.ts) and
-[`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml), and update the origin in
-`src/app/core/seo/seo.service.ts` and `public/robots.txt`.
+GistVault is a static site and deploys free on Vercel's Hobby plan straight from this repository.
+**See [DEPLOYMENT.md](DEPLOYMENT.md) for the step-by-step guide**, including custom domains,
+verification checks, rollbacks and troubleshooting.
 
 ## Contributing
 
@@ -75,8 +70,8 @@ instead of opening a public issue.
 
 ## License
 
-[MIT](LICENSE) © 2026 Joshua T J and CmdVault contributors.
+[MIT](LICENSE) © 2026 Joshua T J and GistVault contributors.
 Third-party software and fonts are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-CmdVault is not affiliated with, endorsed by or sponsored by GitHub, Inc. GitHub and the GitHub
+GistVault is not affiliated with, endorsed by or sponsored by GitHub, Inc. GitHub and the GitHub
 logo are trademarks of GitHub, Inc.

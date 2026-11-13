@@ -26,7 +26,7 @@ Closes #
 - [ ] I followed the coding standards in `CLAUDE.md` (signals, `input()`/`output()`, native control flow, no `any`)
 - [ ] New logic has unit tests
 - [ ] Accessibility: keyboard works, focus is visible, controls have labels, contrast meets WCAG AA
-- [ ] Security: no `[innerHTML]` with user content, no `bypassSecurityTrust*`, the token is only sent to `api.github.com`
+- [ ] Security: no `[innerHTML]` with user content, no `bypassSecurityTrust*`, the token is only sent to `api.github.com`, new text inputs are validated with `core/security/input-safety.ts`
 - [ ] No tokens, secrets or personal data in code, tests, screenshots or commit history
 - [ ] Any new dependency has an MIT-compatible licence and is added to `THIRD_PARTY_NOTICES.md`
 - [ ] Docs updated (README, privacy or security page) if behaviour changed
