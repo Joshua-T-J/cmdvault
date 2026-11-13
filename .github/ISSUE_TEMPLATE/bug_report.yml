@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in CmdVault isn't working as expected.
+title: "bug: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+
+        **Never paste a GitHub token, gist URL, or real secrets in an issue.** Issues are public.
+        If this is a security problem, please report it privately instead (see SECURITY.md).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: When I click "Fill and copy" on a command with two placeholders…
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to …
+        2. Click …
+        3. See error …
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Connect GitHub / token
+        - Vault (search, tags, favorites)
+        - Copy and placeholders
+        - Command editor / secret check
+        - Sync between tabs or devices
+        - Import / export
+        - Theme / layout
+        - Accessibility
+        - Landing, privacy or security pages
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 142, Firefox 145, Safari 19…
+    validations:
+      required: true
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device
+      options:
+        - Desktop
+        - Phone
+        - Tablet
+  - type: dropdown
+    id: token
+    attributes:
+      label: Token type
+      options:
+        - Fine-grained token
+        - Classic token
+        - Not relevant
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console errors or screenshots
+      description: Check that nothing sensitive (tokens, commands with secrets) is visible before attaching.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true
+        - label: I removed any tokens, gist URLs and secrets from this report.
+          required: true

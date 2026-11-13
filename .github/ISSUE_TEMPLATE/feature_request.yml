@@ -1,0 +1,45 @@
+name: Feature request
+description: Suggest an idea or improvement for CmdVault.
+title: "feat: "
+labels: ["enhancement", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the idea! A clear problem description helps us most.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      placeholder: I keep commands for several clients and it's hard to…
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Vault and commands
+        - Placeholders and copy
+        - Sync and storage
+        - Security and privacy
+        - Accessibility
+        - Theme and layout
+        - Import / export
+        - Docs
+        - Other
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I'd be willing to open a pull request for this.
