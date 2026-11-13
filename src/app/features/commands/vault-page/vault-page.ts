@@ -68,8 +68,8 @@ export default class VaultPage {
 
   constructor() {
     inject(SeoService).set({
-      title: 'Your commands · CmdVault',
-      description: 'Your CmdVault command list.',
+      title: 'Your commands · GistVault',
+      description: 'Your GistVault command list.',
       path: '/app',
       noindex: true,
     });
@@ -153,7 +153,7 @@ export default class VaultPage {
     const url = URL.createObjectURL(blob);
     const a = this.#doc.createElement('a');
     a.href = url;
-    a.download = `cmdvault-export-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `gistvault-export-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     this.#toast.show('Exported your commands');
@@ -179,7 +179,7 @@ export default class VaultPage {
           : summary,
       );
     } catch {
-      this.#toast.show('That file isn’t valid CmdVault JSON.');
+      this.#toast.show('That file isn’t valid GistVault JSON.');
     }
   }
 

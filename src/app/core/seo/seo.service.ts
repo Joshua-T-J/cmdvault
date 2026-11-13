@@ -1,5 +1,6 @@
 import { DOCUMENT, Service, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { SITE_URL } from '../site.config';
 
 export interface SeoPage {
   title: string;
@@ -10,8 +11,6 @@ export interface SeoPage {
   jsonLd?: object;
 }
 
-export const SITE_ORIGIN = 'https://cmdvault.vercel.app';
-
 @Service()
 export class SeoService {
   readonly #title = inject(Title);
@@ -19,8 +18,7 @@ export class SeoService {
   readonly #doc = inject(DOCUMENT);
 
   set(page: SeoPage): void {
-    const url = `${SITE_ORIGIN}${page.path}`;
-    const image = `${SITE_ORIGIN}${page.image ?? '/og/default.png'}`;
+    const url = `${SITE_URL}${page.path}`;
 
     this.#title.setTitle(page.title);
     this.#meta.updateTag({ name: 'description', content: page.description });
@@ -32,8 +30,16 @@ export class SeoService {
     this.#meta.updateTag({ property: 'og:title', content: page.title });
     this.#meta.updateTag({ property: 'og:description', content: page.description });
     this.#meta.updateTag({ property: 'og:url', content: url });
-    this.#meta.updateTag({ property: 'og:image', content: image });
-    this.#meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    // Only advertise a preview image that exists (add 1200×630 images under public/og/).
+    if (page.image) {
+      this.#meta.updateTag({ property: 'og:image', content: `${SITE_URL}${page.image}` });
+    } else {
+      this.#meta.removeTag("property='og:image'");
+    }
+    this.#meta.updateTag({
+      name: 'twitter:card',
+      content: page.image ? 'summary_large_image' : 'summary',
+    });
 
     this.#setCanonical(url);
     this.#setJsonLd(page.jsonLd ?? null);

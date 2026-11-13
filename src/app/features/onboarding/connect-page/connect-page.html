@@ -1,5 +1,5 @@
 <header class="bar">
-  <a routerLink="/" class="home-link" aria-label="CmdVault home"><app-logo /></a>
+  <a routerLink="/" class="home-link" aria-label="GistVault home"><app-logo /></a>
   <div class="bar-end">
     <p class="step-count">Step {{ step() }} of 3</p>
     <app-theme-picker [compact]="true" />
@@ -39,7 +39,7 @@
       @case (1) {
         <h1 id="step-heading" #heading tabindex="-1">Create a GitHub token.</h1>
         <p class="intro">
-          CmdVault has no server. It talks to GitHub straight from your browser, using a personal
+          GistVault has no server. It talks to GitHub straight from your browser, using a personal
           access token that only you hold.
         </p>
         <ul class="why">
@@ -66,10 +66,10 @@
         <div class="callout callout-warning" role="note">
           <app-icon name="warning" [size]="20" />
           <p>
-            <strong>This token can edit all of your gists, not just CmdVault’s.</strong>
+            <strong>This token can edit all of your gists, not just GistVault’s.</strong>
             GitHub can’t limit it to one gist. Give it Gists access only, no repositories, and an
             expiry date.
-            <a routerLink="/security" fragment="token">How CmdVault keeps your token</a>
+            <a routerLink="/security" fragment="token">How GistVault keeps your token</a>
           </p>
         </div>
 

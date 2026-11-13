@@ -1,7 +1,7 @@
 <app-doc-layout
   eyebrow="security"
   heading="Security model"
-  lead="CmdVault is designed so that there is nothing on our side to break into. This page explains how your token and commands are handled, what protects them, and — just as important — what can’t."
+  lead="GistVault is designed so that there is nothing on our side to break into. This page explains how your token and commands are handled, what protects them, and — just as important — what can’t."
   updated="13 November 2026"
   path="/security"
   [toc]="toc"
@@ -11,7 +11,7 @@
       <h2>Straight talk</h2>
       <p>
         Your vault is a <strong>secret gist, which is unlisted, not private</strong>. Anyone with
-        its URL can read it. CmdVault is a good home for commands, not for passwords or API keys —
+        its URL can read it. GistVault is a good home for commands, not for passwords or API keys —
         and it actively stops you from saving them by accident.
       </p>
     </div>
@@ -22,7 +22,7 @@
     <div
       class="flow"
       role="img"
-      aria-label="Your browser talks directly to api.github.com, which stores your secret gist. There is no CmdVault server in between."
+      aria-label="Your browser talks directly to api.github.com, which stores your secret gist. There is no GistVault server in between."
     >
       <span>Your browser</span>
       <span class="arrow" aria-hidden="true">→ HTTPS →</span>
@@ -31,13 +31,13 @@
       <span>your secret gist</span>
     </div>
     <ul>
-      <li>There is <strong>no CmdVault server or database</strong>. The site is static files.</li>
+      <li>There is <strong>no GistVault server or database</strong>. The site is static files.</li>
       <li>Every request to GitHub is made from your browser over HTTPS.</li>
       <li>
         The app only makes network requests to <code>api.github.com</code> and, for very large
         vaults, <code>gist.githubusercontent.com</code>.
       </li>
-      <li>CmdVault only ever writes to its own vault gist — never to your other gists.</li>
+      <li>GistVault only ever writes to its own vault gist — never to your other gists.</li>
     </ul>
   </section>
 
@@ -54,11 +54,11 @@
       <li>Account permissions: <strong>Gists — Read and write</strong>, nothing else.</li>
       <li>Expiry: <strong>90 days or less</strong>.</li>
       <li>
-        Classic token instead? Tick only the <code>gist</code> scope. CmdVault warns you if it finds
-        more.
+        Classic token instead? Tick only the <code>gist</code> scope. GistVault warns you if it
+        finds more.
       </li>
     </ul>
-    <h3>How CmdVault keeps it</h3>
+    <h3>How GistVault keeps it</h3>
     <ul>
       <li>
         <strong>In memory by default.</strong> Reloading the page forgets it; a password manager
@@ -83,7 +83,7 @@
   <section id="secret-check">
     <h2>The secret check</h2>
     <p>
-      Before a command is saved, CmdVault scans it for things that look like credentials. If it
+      Before a command is saved, GistVault scans it for things that look like credentials. If it
       finds one, <strong>Save stays disabled</strong> and the match is highlighted. One click
       replaces it with <code>{{ '{{' }}API_KEY{{ '}}' }}</code
       >, which you fill in at copy time and which is never stored. Imported files are scanned too:
@@ -106,7 +106,7 @@
     <h2>Input validation</h2>
     <p>
       Everything you type, import or load from your gist is treated as untrusted text. Angular
-      escapes it whenever it is shown, and CmdVault never renders it as HTML. On top of that:
+      escapes it whenever it is shown, and GistVault never renders it as HTML. On top of that:
     </p>
     <ul>
       <li>
@@ -139,7 +139,9 @@
     <h2>Saving and sync</h2>
     <ul>
       <li>Changes are saved about 1.5 seconds after you stop editing.</li>
-      <li>Before each save, CmdVault fetches the latest vault and merges it command by command.</li>
+      <li>
+        Before each save, GistVault fetches the latest vault and merges it command by command.
+      </li>
       <li>
         If the same command changed on two devices, the newer edit wins and the other is kept as a
         <strong>“conflicted copy”</strong> — nothing is silently lost.
@@ -206,7 +208,7 @@
       <li>Keep real secrets in a password manager, not in commands — use placeholders.</li>
       <li>Don’t tick “Remember for this tab” on shared or public computers.</li>
       <li>Sign out when you’re done on a shared machine.</li>
-      <li>For extra separation, use a dedicated GitHub account just for CmdVault.</li>
+      <li>For extra separation, use a dedicated GitHub account just for GistVault.</li>
     </ul>
   </section>
 
@@ -228,7 +230,7 @@
         Review your account’s
         <a href="https://github.com/settings/security-log" rel="noopener">security log</a>.
       </li>
-      <li>Create a new token and <a routerLink="/app/connect">reconnect CmdVault</a>.</li>
+      <li>Create a new token and <a routerLink="/app/connect">reconnect GistVault</a>.</li>
     </ol>
     <p>
       If a secret was ever saved in your vault, rotate that secret too — it remains in the gist’s

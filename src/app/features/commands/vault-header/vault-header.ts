@@ -16,7 +16,7 @@ import { CommandStore } from '../command.store';
   },
   template: `
     <header class="bar">
-      <a routerLink="/app" class="home-link" aria-label="CmdVault — all commands"><app-logo /></a>
+      <a routerLink="/app" class="home-link" aria-label="GistVault — all commands"><app-logo /></a>
 
       <div class="search" role="search">
         <label for="vault-search" class="visually-hidden">Search title, command or tag</label>

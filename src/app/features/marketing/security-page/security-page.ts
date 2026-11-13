@@ -43,9 +43,9 @@ export default class SecurityPage {
 
   constructor() {
     inject(SeoService).set({
-      title: 'Security model · CmdVault',
+      title: 'Security model · GistVault',
       description:
-        'How CmdVault protects your commands and GitHub token: direct-to-GitHub requests, in-memory tokens, a pre-save secret check, strict CSP, and honest limits.',
+        'How GistVault protects your commands and GitHub token: direct-to-GitHub requests, in-memory tokens, a pre-save secret check, strict CSP, and honest limits.',
       path: '/security',
     });
   }

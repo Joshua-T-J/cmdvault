@@ -1,3 +1,4 @@
+import { SITE_URL } from '../site.config';
 import { LIMITS, sanitizeCommand, sanitizePlainText, sanitizeTag } from '../security/input-safety';
 import { parsePlaceholders } from '../util/placeholders';
 import {
@@ -19,10 +20,10 @@ export class VaultFormatError extends Error {
   }
 }
 
-/** Thrown when the gist was written by a newer CmdVault; the vault opens read-only. */
+/** Thrown when the gist was written by a newer GistVault; the vault opens read-only. */
 export class VaultTooNewError extends Error {
   constructor(readonly schema: number) {
-    super('This vault was saved by a newer version of CmdVault. Please refresh to update.');
+    super('This vault was saved by a newer version of GistVault. Please refresh to update.');
     this.name = 'VaultTooNewError';
   }
 }
@@ -233,10 +234,10 @@ export function mergeVaults(input: MergeInput): MergeResult {
   return { commands, tombstones: [...tombstoneMap.values()], conflicts };
 }
 
-export const VAULT_README = `# CmdVault data
+export const VAULT_README = `# GistVault data
 
-This gist is managed by [CmdVault](https://cmdvault.vercel.app). Please don't edit \`cmdvault.json\` by hand.
+This gist is managed by [GistVault](${SITE_URL}). Please don't edit \`gistvault.json\` by hand.
 
 **This is a secret gist: it is unlisted, not private.** Anyone who has its URL can read it.
-Don't store passwords, API keys or other secrets here unless you turn on encryption in CmdVault.
+Don't store passwords, API keys or other secrets here unless you turn on encryption in GistVault.
 `;

@@ -16,7 +16,7 @@ and credit you in the release notes if you'd like.
 
 ## Supported versions
 
-CmdVault is a continuously deployed web app. Only the latest version on `main` is supported.
+GistVault is a continuously deployed web app. Only the latest version on `main` is supported.
 
 ## Scope
 
@@ -24,7 +24,7 @@ In scope:
 
 - leaking the GitHub token (to storage, logs, other origins or the page),
 - cross-site scripting or other script injection,
-- writing to gists other than the user's CmdVault vault,
+- writing to gists other than the user's GistVault vault,
 - bypassing the secret check in a way that silently saves secrets,
 - weaknesses in the security headers or Content Security Policy.
 
@@ -35,4 +35,4 @@ Out of scope:
 - GitHub's own services and rate limits,
 - missing security headers on preview deployments.
 
-See the in-app **Security model** page (`/security`) for how CmdVault is designed.
+See the in-app **Security model** page (`/security`) for how GistVault is designed.

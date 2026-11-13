@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-/** CmdVault logo: a rounded terminal window with a prompt, plus the wordmark. */
+/** GistVault logo: a rounded terminal window with a prompt, plus the wordmark. */
 @Component({
   selector: 'app-logo',
   template: `
@@ -24,7 +24,7 @@ import { Component } from '@angular/core';
         stroke-linejoin="round"
       />
     </svg>
-    <span class="wordmark">CmdVault</span>
+    <span class="wordmark">GistVault</span>
   `,
   styles: `
     :host {

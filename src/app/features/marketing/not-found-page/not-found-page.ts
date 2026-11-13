@@ -39,7 +39,7 @@ import { SiteHeader } from '../site-header/site-header';
 export default class NotFoundPage {
   constructor() {
     inject(SeoService).set({
-      title: 'Page not found · CmdVault',
+      title: 'Page not found · GistVault',
       description: 'This page doesn’t exist.',
       path: '/404',
       noindex: true,

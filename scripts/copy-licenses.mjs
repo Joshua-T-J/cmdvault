@@ -3,7 +3,7 @@
 import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-const dist = 'dist/cmdvault';
+const dist = 'dist/gistvault';
 const out = join(dist, 'browser', 'licenses');
 
 const files = [
@@ -13,7 +13,7 @@ const files = [
   { from: 'node_modules/@fontsource-variable/inter/LICENSE', to: 'fonts/inter.txt' },
   { from: 'node_modules/@fontsource-variable/space-grotesk/LICENSE', to: 'fonts/space-grotesk.txt' },
   { from: 'node_modules/@fontsource-variable/jetbrains-mono/LICENSE', to: 'fonts/jetbrains-mono.txt' },
-  { from: 'LICENSE', to: 'cmdvault.txt' },
+  { from: 'LICENSE', to: 'gistvault.txt' },
 ];
 
 for (const { from, to } of files) {

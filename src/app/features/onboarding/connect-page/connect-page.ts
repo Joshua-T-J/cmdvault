@@ -72,8 +72,8 @@ export default class ConnectPage {
 
   constructor() {
     inject(SeoService).set({
-      title: 'Connect GitHub · CmdVault',
-      description: 'Connect CmdVault to your GitHub account with a personal access token.',
+      title: 'Connect GitHub · GistVault',
+      description: 'Connect GistVault to your GitHub account with a personal access token.',
       path: '/app/connect',
       noindex: true,
     });

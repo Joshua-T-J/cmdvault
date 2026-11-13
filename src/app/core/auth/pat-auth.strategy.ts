@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { AuthStrategy, InvalidTokenFormatError, LoginInput } from './auth-strategy';
 import { GITHUB_API_BASE } from '../http/github-api';
 
-const STORAGE_KEY = 'cmdvault.pat';
+const STORAGE_KEY = 'gistvault.pat';
 const TOKEN_FORMAT = /^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/;
 
 /**

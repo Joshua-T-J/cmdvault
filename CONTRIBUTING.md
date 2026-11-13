@@ -1,10 +1,10 @@
-# Contributing to CmdVault
+# Contributing to GistVault
 
 Thanks for helping! Bug reports, ideas, docs fixes and code are all welcome.
 
 ## Before you start
 
-- **Bugs and ideas:** search [existing issues](../../issues) first, then open one with the matching
+- **Bugs and ideas:** search [existing issues](https://github.com/Joshua-T-J/cmdvault/issues) first, then open one with the matching
   template.
 - **Security problems:** don't open a public issue — see [SECURITY.md](SECURITY.md).
 - **Bigger changes:** open an issue to discuss the approach before writing a lot of code.
@@ -14,7 +14,7 @@ By contributing, you agree that your contributions are licensed under the projec
 
 ## Development setup
 
-Requirements: Node.js 22.22+ or 24.15+.
+Requirements: Node.js 22.22+, 24.15+ or 26.
 
 ```bash
 npm install

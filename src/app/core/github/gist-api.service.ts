@@ -10,7 +10,7 @@ import {
   GitHubUserDto,
 } from './gist.models';
 
-/** Thin, typed wrapper over the GitHub Gists REST endpoints CmdVault uses. */
+/** Thin, typed wrapper over the GitHub Gists REST endpoints GistVault uses. */
 @Service()
 export class GistApiService {
   readonly #http = inject(HttpClient);

@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "cmdvault": {
+    "gistvault": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "cmdvault:build:production"
+              "buildTarget": "gistvault:build:production"
             },
             "development": {
-              "buildTarget": "cmdvault:build:development"
+              "buildTarget": "gistvault:build:development"
             }
           },
           "defaultConfiguration": "development"

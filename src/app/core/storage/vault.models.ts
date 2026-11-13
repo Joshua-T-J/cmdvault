@@ -44,12 +44,19 @@ export interface VaultDoc {
 }
 
 export const CURRENT_SCHEMA = 1;
-export const VAULT_FILE = 'cmdvault.json';
+export const VAULT_FILE = 'gistvault.json';
 export const VAULT_README_FILE = 'README.md';
-export const VAULT_MARKER = '[cmdvault:v1]';
-export const VAULT_DESCRIPTION = `CmdVault data — do not edit manually ${VAULT_MARKER}`;
+export const VAULT_MARKER = '[gistvault:v1]';
+export const VAULT_DESCRIPTION = `GistVault data — do not edit manually ${VAULT_MARKER}`;
 
-/** Size thresholds for cmdvault.json, in bytes. */
+/**
+ * Names used before the app was renamed from CmdVault. Vaults that still use them are found,
+ * read, and upgraded to the current names on their next save.
+ */
+export const LEGACY_VAULT_FILE = 'cmdvault.json';
+export const LEGACY_VAULT_MARKER = '[cmdvault:v1]';
+
+/** Size thresholds for gistvault.json, in bytes. */
 export const VAULT_SIZE_WARN = 800 * 1024;
 export const VAULT_SIZE_BLOCK = 950 * 1024;
 

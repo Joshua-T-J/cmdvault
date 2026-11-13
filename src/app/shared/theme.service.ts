@@ -1,6 +1,8 @@
 import { DOCUMENT, Service, computed, effect, inject, signal } from '@angular/core';
 
-const THEME_KEY = 'cmdvault.theme';
+const THEME_KEY = 'gistvault.theme';
+/** Key used before the rename from CmdVault; read once and migrated. */
+const LEGACY_THEME_KEY = 'cmdvault.theme';
 const DARK_QUERY = '(prefers-color-scheme: dark)';
 
 export type Theme = 'light' | 'dark';
@@ -47,6 +49,11 @@ export class ThemeService {
 
   #readPreference(): ThemePreference {
     try {
+      const legacy = localStorage.getItem(LEGACY_THEME_KEY);
+      if (legacy !== null) {
+        localStorage.removeItem(LEGACY_THEME_KEY);
+        if (localStorage.getItem(THEME_KEY) === null) localStorage.setItem(THEME_KEY, legacy);
+      }
       const stored = localStorage.getItem(THEME_KEY);
       if (stored === 'light' || stored === 'dark') return stored;
     } catch {

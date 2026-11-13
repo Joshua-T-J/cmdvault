@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in CmdVault isn't working as expected.
+description: Something in GistVault isn't working as expected.
 title: "bug: "
 labels: ["bug", "needs triage"]
 body:

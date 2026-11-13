@@ -56,7 +56,7 @@ import { Logo } from '../logo/logo';
 
       <div class="legal">
         <p>
-          © 2026 Joshua T J and CmdVault contributors ·
+          © 2026 Joshua T J and GistVault contributors ·
           <a routerLink="/licenses" class="inline">MIT License</a> · not affiliated with GitHub,
           Inc.
         </p>
