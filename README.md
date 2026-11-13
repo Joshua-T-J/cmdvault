@@ -1,59 +1,82 @@
-# Cmdvault
+# CmdVault
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.7.
+> Save the shell commands you look up twice — in a secret gist on your own GitHub account.
 
-## Development server
+CmdVault is a free, open-source web app for storing, tagging, searching and copying CLI commands
+(git, docker, kubectl, anything). There is **no server and no database**: your commands live in one
+secret gist that belongs to you, and your browser talks to GitHub directly.
 
-To start a local development server, run:
+- **Your data, your account** — one secret gist, readable as plain JSON.
+- **Placeholders** — write `{{host}}` once, fill it in when you copy. Values are never saved.
+- **Secret check** — API keys, tokens and passwords are caught before they reach your gist.
+- **Keyboard first** — `/` to search, `n` for a new command, `?` for all shortcuts.
+- **Accessible** — built to WCAG 2.2 AA, checked with axe.
 
-```bash
-ng serve
-```
+> [!IMPORTANT]
+> A secret gist is **unlisted, not private**. Anyone with its URL can read it. Don't store real
+> secrets in CmdVault — use placeholders. See the in-app **Security model** page (`/security`).
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Getting started
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Requirements: Node.js 22.22+ or 24.15+.
 
 ```bash
-ng generate --help
+npm install
+npm start          # http://localhost:4200
 ```
 
-## Building
+To use the app you need a GitHub token with **Gists: Read and write** access only (fine-grained,
+no repositories, 90-day expiry recommended). The Connect wizard in the app walks you through it.
 
-To build the project run:
+## Scripts
 
-```bash
-ng build
+| Command | What it does |
+|---|---|
+| `npm start` | Dev server with live reload |
+| `npm run build` | Production build into `dist/cmdvault/browser`, plus licence files |
+| `npm test` | Security check, then unit tests (Vitest) |
+| `npm run check:security` | Fails on unsafe HTML APIs or hidden Unicode characters in `src/` |
+| `npm run format` | Format source files with Prettier |
+
+## Project structure
+
+```
+src/app/
+├── core/          auth, GitHub API + interceptors, vault storage and sync, secret scanner, SEO
+├── features/
+│   ├── commands/   the vault: vault-page/, command-card/, command-editor/, … + command.store.ts
+│   ├── onboarding/ connect-page/, token-help/
+│   └── marketing/  home-page/, privacy-page/, security-page/, licenses-page/, …
+└── shared/        icon/, logo/, theme-picker/, toast/, site-footer/, …
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Each component lives in a folder named after it (`command-card/command-card.ts`, with its template
+and styles beside it), following the Angular style guide.
 
-## Running unit tests
+Coding standards for contributors (and AI assistants) are in [`CLAUDE.md`](CLAUDE.md): standalone
+components, signals, `input()`/`output()`, native control flow, Signal Forms, and no `any`.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Deploying
 
-```bash
-ng test
-```
+The app is a static site. On Vercel, import the repository; `vercel.json` sets the build command,
+output folder, SPA rewrites and security headers. Other static hosts work too — serve
+`dist/cmdvault/browser` with a fallback to `index.html`.
 
-## Running end-to-end tests
+Before publishing your own deployment, replace `OWNER/REPO` in
+[`src/app/core/site.config.ts`](src/app/core/site.config.ts) and
+[`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml), and update the origin in
+`src/app/core/seo/seo.service.ts` and `public/robots.txt`.
 
-For end-to-end (e2e) testing, run:
+## Contributing
 
-```bash
-ng e2e
-```
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and our
+[Code of Conduct](CODE_OF_CONDUCT.md). Found a security issue? Follow [SECURITY.md](SECURITY.md)
+instead of opening a public issue.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## License
 
-## Additional Resources
+[MIT](LICENSE) © 2026 Joshua T J and CmdVault contributors.
+Third-party software and fonts are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+CmdVault is not affiliated with, endorsed by or sponsored by GitHub, Inc. GitHub and the GitHub
+logo are trademarks of GitHub, Inc.

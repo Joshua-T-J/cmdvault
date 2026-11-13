@@ -1,15 +1,19 @@
 {
   "name": "cmdvault",
   "version": "0.0.0",
+  "description": "Save the shell commands you look up twice — in a secret gist on your own GitHub account.",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "npm@11.21.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run check:security && ng build && node scripts/copy-licenses.mjs",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "npm run check:security && ng test",
+    "format": "prettier --write \"src/**/*.{ts,html,scss}\"",
+    "check:security": "node scripts/check-unsafe-code.mjs"
   },
-  "private": true,
-  "packageManager": "npm@11.21.0",
   "dependencies": {
     "@angular/common": "^22.2.0",
     "@angular/compiler": "^22.2.0",
@@ -17,6 +21,9 @@
     "@angular/forms": "^22.2.0",
     "@angular/platform-browser": "^22.2.0",
     "@angular/router": "^22.2.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

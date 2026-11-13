@@ -1,0 +1,144 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.home-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.search {
+  position: relative;
+  flex: 1;
+  max-width: 560px;
+
+  .input {
+    padding-left: 38px;
+    padding-right: 40px;
+  }
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.key-hint {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.ok {
+  display: inline-flex;
+  color: var(--ok-fg);
+
+  :host-context(.dark) & {
+    color: #7fd19b;
+  }
+}
+
+.account {
+  position: relative;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  display: grid;
+  min-width: 280px;
+  padding: 8px;
+  box-shadow: 0 12px 32px rgb(14 17 22 / 18%);
+}
+
+.signed-in {
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 14px;
+
+  strong {
+    color: var(--ink);
+  }
+}
+
+.menu-theme {
+  padding: 4px 10px 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.item {
+  justify-content: flex-start;
+}
+
+@media (max-width: 900px) {
+  .status {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .bar {
+    flex-wrap: wrap;
+    padding: 10px 16px;
+  }
+
+  .search {
+    order: 5;
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .key-hint {
+    display: none;
+  }
+
+  .new-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    margin-left: auto;
+  }
+}

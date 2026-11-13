@@ -1,0 +1,159 @@
+<dialog #dialog class="modal" aria-labelledby="editor-title" (close)="onClosed()">
+  <form (submit)="save($event)" novalidate>
+    <header class="modal-header">
+      <h2 id="editor-title">{{ heading() }}</h2>
+      <button type="button" class="btn btn-ghost btn-icon" aria-label="Close" (click)="close()">
+        <app-icon name="x" />
+      </button>
+    </header>
+
+    <div class="modal-body">
+      <div class="field">
+        <label class="label" for="cmd-title">Title</label>
+        <input
+          id="cmd-title"
+          class="input"
+          autocomplete="off"
+          [formField]="editor.title"
+          [attr.aria-invalid]="errorFor('title') ? 'true' : null"
+          [attr.aria-describedby]="errorFor('title') ? 'cmd-title-error' : null"
+        />
+        @if (errorFor('title'); as message) {
+          <p id="cmd-title-error" class="error-text">{{ message }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label class="label" for="cmd-command">Command</label>
+        <textarea
+          #commandInput
+          id="cmd-command"
+          class="input mono"
+          rows="3"
+          spellcheck="false"
+          autocapitalize="off"
+          [class.has-secret]="hasSecrets()"
+          [formField]="editor.command"
+          [attr.aria-invalid]="
+            errorFor('command') || hasSecrets() || hiddenChars().length ? 'true' : null
+          "
+          aria-describedby="cmd-command-hint"
+        ></textarea>
+        <p id="cmd-command-hint" class="hint">
+          Use <code>{{ '{{' }}name{{ '}}' }}</code> for values you fill in at copy time.
+        </p>
+        @if (errorFor('command'); as message) {
+          <p class="error-text">{{ message }}</p>
+        }
+        @if (hasSecrets()) {
+          <pre
+            class="code-block secret-preview"
+            aria-hidden="true"
+          ><code>@for (segment of segments(); track $index) {@if (segment.secret) {<mark>{{ segment.text }}</mark>} @else {<span>{{ segment.text }}</span>}}</code></pre>
+        }
+      </div>
+
+      @if (hiddenChars().length) {
+        <div class="callout callout-warning secret" role="alert">
+          <app-icon name="warning" [size]="20" />
+          <div class="secret-body">
+            <h3>This command contains hidden characters.</h3>
+            <p>
+              Invisible or right-to-left characters ({{ hiddenCharList() }}) can make a command run
+              something different from what you see. They’re usually pasted in by accident.
+            </p>
+            <div class="secret-actions">
+              <button type="button" class="btn btn-dark" (click)="removeHiddenChars()">
+                Remove hidden characters
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (hasSecrets()) {
+        <div class="callout callout-warning secret" role="alert">
+          <app-icon name="lock" [size]="20" />
+          <div class="secret-body">
+            <h3>{{ secretHeadline() }}</h3>
+            <p>
+              Your vault is a secret gist — unlisted, not private — so anyone with its link could
+              read it.
+            </p>
+            <div class="secret-actions">
+              <button type="button" class="btn btn-dark" (click)="replaceWithPlaceholder()">
+                Replace with <code>{{ '{{' }}API_KEY{{ '}}' }}</code>
+              </button>
+              <button type="button" class="btn btn-outline" disabled>
+                Save anyway — needs encryption on
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="row">
+        <div class="field grow">
+          <label class="label" for="cmd-tags">Tags</label>
+          <input
+            id="cmd-tags"
+            class="input"
+            autocomplete="off"
+            [attr.aria-describedby]="
+              errorFor('tags') ? 'cmd-tags-hint cmd-tags-error' : 'cmd-tags-hint'
+            "
+            [attr.aria-invalid]="errorFor('tags') ? 'true' : null"
+            [formField]="editor.tags"
+          />
+          <p id="cmd-tags-hint" class="hint">Separate with commas, e.g. git, debug</p>
+          @if (errorFor('tags'); as message) {
+            <p id="cmd-tags-error" class="error-text">{{ message }}</p>
+          }
+        </div>
+        <div class="field">
+          <label class="label" for="cmd-shell">Shell</label>
+          <select id="cmd-shell" class="input" [formField]="editor.shell">
+            @for (shell of shells; track shell.value) {
+              <option [value]="shell.value">{{ shell.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="cmd-notes">Notes <span class="hint">(optional)</span></label>
+        <textarea
+          id="cmd-notes"
+          class="input"
+          rows="2"
+          [formField]="editor.notes"
+          [attr.aria-invalid]="errorFor('notes') ? 'true' : null"
+          [attr.aria-describedby]="errorFor('notes') ? 'cmd-notes-error' : null"
+        ></textarea>
+        @if (errorFor('notes'); as message) {
+          <p id="cmd-notes-error" class="error-text">{{ message }}</p>
+        }
+      </div>
+    </div>
+
+    <footer class="modal-footer">
+      @if (editingId()) {
+        <button type="button" class="btn btn-ghost danger" (click)="remove()">
+          <app-icon name="trash" [size]="16" />
+          {{ confirmDelete() ? 'Click again to delete' : 'Delete' }}
+        </button>
+      }
+      <p class="hint shortcut">
+        <kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">Enter</kbd> to save
+      </p>
+      <button type="button" class="btn btn-ghost" (click)="close()">Cancel</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="hasSecrets() || hiddenChars().length > 0"
+      >
+        Save command
+      </button>
+    </footer>
+  </form>
+</dialog>

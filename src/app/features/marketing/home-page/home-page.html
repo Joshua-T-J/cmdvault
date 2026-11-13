@@ -1,0 +1,123 @@
+<app-site-header />
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">free · open source · no server</p>
+      <h1 id="hero-title">The commands you look up twice, saved in your own GitHub.</h1>
+      <p class="lead">
+        CmdVault keeps your shell commands in a secret gist on your account. Tag them, search them,
+        and copy them with placeholders like <code>{{ '{{' }}host{{ '}}' }}</code> filled in at copy
+        time.
+      </p>
+      <div class="actions">
+        <a routerLink="/app/connect" class="btn btn-primary btn-lg">
+          <app-github-mark /> Connect GitHub — it’s free
+        </a>
+        <a routerLink="/security" class="btn btn-outline btn-lg">Read the security model</a>
+      </div>
+      <p class="note">Your data never touches our servers. We don’t have any.</p>
+    </div>
+
+    <div class="preview" aria-label="Preview of the CmdVault app" role="img">
+      <div class="preview-search">
+        <app-icon name="search" />
+        <span>Search title, command or tag</span>
+        <span class="preview-kbd">⌘K</span>
+      </div>
+      <div class="preview-card">
+        <div class="preview-row">
+          <strong>Rebase branch onto main</strong>
+          <span class="preview-copied"><app-icon name="check" [size]="14" /> copied</span>
+        </div>
+        <code>git fetch origin &amp;&amp; git rebase origin/main</code>
+      </div>
+      <div class="preview-card">
+        <div class="preview-row"><strong>Shell into a running pod</strong></div>
+        <code>kubectl exec -it {{ '{{' }}pod{{ '}}' }} -n {{ '{{' }}namespace{{ '}}' }} -- sh</code>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="section" aria-labelledby="features-title">
+    <h2 id="features-title">Everything a command needs, nothing it doesn’t.</h2>
+    <ul class="feature-grid">
+      @for (feature of features; track feature.title) {
+        <li class="card feature">
+          <span class="feature-icon"><app-icon [name]="feature.icon" [size]="22" /></span>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.body }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section id="how-it-works" class="section" aria-labelledby="how-title">
+    <h2 id="how-title">Up and running in about three minutes.</h2>
+    <ol class="steps">
+      <li class="card">
+        <span class="step-no">01</span>
+        <h3>Create a GitHub token</h3>
+        <p>Gists access only, no repositories, and an expiry date. We link you straight to it.</p>
+      </li>
+      <li class="card">
+        <span class="step-no">02</span>
+        <h3>Paste it into CmdVault</h3>
+        <p>We check what it can do and find or create your vault gist.</p>
+      </li>
+      <li class="card">
+        <span class="step-no">03</span>
+        <h3>Save your first command</h3>
+        <p>Start from examples for git, docker and kubectl, or add your own.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="security" class="security" aria-labelledby="security-title">
+    <div class="security-inner">
+      <h2 id="security-title">Straight talk about security</h2>
+      <p class="security-lead">
+        A secret gist is <strong>unlisted, not private</strong>. Anyone with its link can read it.
+        Here’s how CmdVault keeps that from hurting you.
+      </p>
+      <ul class="security-grid">
+        <li>
+          <h3>Token in memory</h3>
+          <p>
+            Your token stays in this tab’s memory unless you choose otherwise. Never in
+            localStorage.
+          </p>
+        </li>
+        <li>
+          <h3>Secrets caught before saving</h3>
+          <p>Keys, tokens and passwords are flagged, and you can swap them for a placeholder.</p>
+        </li>
+        <li>
+          <h3>Encryption, coming soon</h3>
+          <p>A passphrase-derived AES-GCM key, all in your browser with Web Crypto.</p>
+        </li>
+        <li>
+          <h3>Strict content security policy</h3>
+          <p>No third-party scripts, and requests only go to GitHub’s API.</p>
+        </li>
+      </ul>
+      <p class="security-links">
+        <a routerLink="/security">Read the full security model</a>
+        <span aria-hidden="true">·</span>
+        <a routerLink="/privacy">Privacy policy</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="faq" class="section faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions</h2>
+    @for (faq of faqs; track faq.question; let first = $first) {
+      <details class="card" [open]="first">
+        <summary>{{ faq.question }}</summary>
+        <p>{{ faq.answer }}</p>
+      </details>
+    }
+  </section>
+</main>
+
+<app-site-footer />

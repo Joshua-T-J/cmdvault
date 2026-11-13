@@ -1,0 +1,201 @@
+<header class="bar">
+  <a routerLink="/" class="home-link" aria-label="CmdVault home"><app-logo /></a>
+  <div class="bar-end">
+    <p class="step-count">Step {{ step() }} of 3</p>
+    <app-theme-picker [compact]="true" />
+  </div>
+</header>
+
+<main id="main" class="layout">
+  <nav aria-label="Setup steps">
+    <ol class="step-list">
+      @for (s of steps; track s.no) {
+        <li
+          class="step"
+          [class.current]="s.no === step()"
+          [class.done]="s.no < step()"
+          [attr.aria-current]="s.no === step() ? 'step' : null"
+        >
+          <span class="step-marker" aria-hidden="true">
+            @if (s.no < step()) {
+              <app-icon name="check" [size]="16" />
+            } @else {
+              {{ s.no }}
+            }
+          </span>
+          <span>
+            {{ s.label }}
+            @if (s.no < step()) {
+              <span class="visually-hidden">(done)</span>
+            }
+          </span>
+        </li>
+      }
+    </ol>
+  </nav>
+
+  <section class="card panel" aria-labelledby="step-heading">
+    @switch (step()) {
+      @case (1) {
+        <h1 id="step-heading" #heading tabindex="-1">Create a GitHub token.</h1>
+        <p class="intro">
+          CmdVault has no server. It talks to GitHub straight from your browser, using a personal
+          access token that only you hold.
+        </p>
+        <ul class="why">
+          <li>Your commands stay in a secret gist on your own account.</li>
+          <li>We never see your data or your token.</li>
+          <li>The token can manage your gists — and nothing else, if you set it up as below.</li>
+        </ul>
+        <app-token-help [open]="true" />
+        <div class="footer">
+          <a routerLink="/" class="btn btn-ghost">Back</a>
+          <button type="button" class="btn btn-dark btn-lg" (click)="goTo(2)">
+            I have a token
+          </button>
+        </div>
+      }
+
+      @case (2) {
+        <h1 id="step-heading" #heading tabindex="-1">Paste your GitHub token.</h1>
+        <p class="intro">
+          It starts with <code>github_pat_</code>. The token is kept in this tab’s memory and sent
+          only to <code>api.github.com</code>.
+        </p>
+
+        <div class="callout callout-warning" role="note">
+          <app-icon name="warning" [size]="20" />
+          <p>
+            <strong>This token can edit all of your gists, not just CmdVault’s.</strong>
+            GitHub can’t limit it to one gist. Give it Gists access only, no repositories, and an
+            expiry date.
+            <a routerLink="/security" fragment="token">How CmdVault keeps your token</a>
+          </p>
+        </div>
+
+        <form class="token-form" (submit)="verify($event)" novalidate>
+          <div class="field">
+            <label class="label" for="token">Personal access token</label>
+            <div class="token-row">
+              <input
+                id="token"
+                class="input mono"
+                type="password"
+                autocomplete="off"
+                spellcheck="false"
+                [formField]="tokenForm.token"
+                [attr.aria-invalid]="tokenError() ? 'true' : null"
+                [attr.aria-describedby]="tokenError() ? 'token-error' : null"
+              />
+              <button type="submit" class="btn btn-primary" [disabled]="verifying() || verified()">
+                @if (verifying()) {
+                  <span class="spinner" aria-hidden="true"></span> Verifying…
+                } @else {
+                  Verify token
+                }
+              </button>
+            </div>
+            @if (tokenError(); as message) {
+              <p id="token-error" class="error-text">{{ message }}</p>
+            }
+          </div>
+
+          <label class="checkbox">
+            <input type="checkbox" [formField]="tokenForm.remember" />
+            <span>
+              <strong>Remember for this tab</strong>
+              <span class="hint block">
+                Keeps the token in session storage until you close this tab. Less safe on shared
+                computers.
+              </span>
+            </span>
+          </label>
+        </form>
+
+        <ul class="checklist" aria-live="polite" aria-label="Verification">
+          @for (check of checks(); track check.id) {
+            <li [class]="'check ' + check.state">
+              <span class="check-icon" aria-hidden="true">
+                @switch (check.state) {
+                  @case ('done') {
+                    <app-icon name="check" [size]="16" />
+                  }
+                  @case ('running') {
+                    <span class="spinner"></span>
+                  }
+                  @case ('error') {
+                    <app-icon name="x" [size]="16" />
+                  }
+                  @default {
+                    <span class="dot"></span>
+                  }
+                }
+              </span>
+              <span>
+                {{ check.label }}
+                @if (check.state === 'running') {
+                  <span class="visually-hidden">— checking</span>
+                } @else if (check.state === 'error') {
+                  <span class="visually-hidden">— failed</span>
+                } @else if (check.state === 'done') {
+                  <span class="visually-hidden">— done</span>
+                }
+              </span>
+              @if (check.detail) {
+                <span class="check-detail">{{ check.detail }}</span>
+              }
+            </li>
+          }
+        </ul>
+
+        @for (warning of warnings(); track warning) {
+          <div class="callout callout-warning" role="note">
+            <app-icon name="warning" [size]="20" />
+            <p>{{ warning }}</p>
+          </div>
+        }
+
+        @if (!verified()) {
+          <app-token-help />
+        }
+
+        <div class="footer">
+          <button type="button" class="btn btn-ghost" (click)="goTo(1)">Back</button>
+          <button
+            type="button"
+            class="btn btn-dark btn-lg"
+            [disabled]="!verified()"
+            (click)="goTo(3)"
+          >
+            Continue
+          </button>
+        </div>
+      }
+
+      @case (3) {
+        <h1 id="step-heading" #heading tabindex="-1">Add your first command.</h1>
+        <p class="intro">
+          Your vault is ready. Start with a handful of examples for git, docker and kubectl, or
+          begin with an empty vault.
+        </p>
+        <div class="choices">
+          <button
+            type="button"
+            class="card choice"
+            (click)="addExamples()"
+            [disabled]="addingExamples()"
+          >
+            <strong>Add examples</strong>
+            <span class="hint">Seven common commands you can edit or delete.</span>
+          </button>
+          <button type="button" class="card choice" (click)="startEmpty()">
+            <strong>Start empty</strong>
+            <span class="hint">Go straight to your vault and add your own.</span>
+          </button>
+        </div>
+      }
+    }
+  </section>
+</main>
+
+<app-site-footer />

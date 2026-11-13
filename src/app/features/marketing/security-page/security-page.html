@@ -1,0 +1,252 @@
+<app-doc-layout
+  eyebrow="security"
+  heading="Security model"
+  lead="CmdVault is designed so that there is nothing on our side to break into. This page explains how your token and commands are handled, what protects them, and — just as important — what can’t."
+  updated="13 November 2026"
+  path="/security"
+  [toc]="toc"
+>
+  <section id="summary">
+    <div class="summary-box">
+      <h2>Straight talk</h2>
+      <p>
+        Your vault is a <strong>secret gist, which is unlisted, not private</strong>. Anyone with
+        its URL can read it. CmdVault is a good home for commands, not for passwords or API keys —
+        and it actively stops you from saving them by accident.
+      </p>
+    </div>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How data flows</h2>
+    <div
+      class="flow"
+      role="img"
+      aria-label="Your browser talks directly to api.github.com, which stores your secret gist. There is no CmdVault server in between."
+    >
+      <span>Your browser</span>
+      <span class="arrow" aria-hidden="true">→ HTTPS →</span>
+      <span>api.github.com</span>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span>your secret gist</span>
+    </div>
+    <ul>
+      <li>There is <strong>no CmdVault server or database</strong>. The site is static files.</li>
+      <li>Every request to GitHub is made from your browser over HTTPS.</li>
+      <li>
+        The app only makes network requests to <code>api.github.com</code> and, for very large
+        vaults, <code>gist.githubusercontent.com</code>.
+      </li>
+      <li>CmdVault only ever writes to its own vault gist — never to your other gists.</li>
+    </ul>
+  </section>
+
+  <section id="token">
+    <h2>Your GitHub token</h2>
+    <h3>What it can do</h3>
+    <p>
+      GitHub can’t limit a token to a single gist. A token with Gists access can
+      <strong>read, create, edit and delete all of your gists</strong>. Set it up narrowly:
+    </p>
+    <ul>
+      <li>Use a <strong>fine-grained</strong> token.</li>
+      <li>Repository access: <strong>No repositories</strong>.</li>
+      <li>Account permissions: <strong>Gists — Read and write</strong>, nothing else.</li>
+      <li>Expiry: <strong>90 days or less</strong>.</li>
+      <li>
+        Classic token instead? Tick only the <code>gist</code> scope. CmdVault warns you if it finds
+        more.
+      </li>
+    </ul>
+    <h3>How CmdVault keeps it</h3>
+    <ul>
+      <li>
+        <strong>In memory by default.</strong> Reloading the page forgets it; a password manager
+        makes re-pasting quick.
+      </li>
+      <li>
+        <strong>Remember for this tab</strong> is opt-in and uses session storage, which is cleared
+        when the tab closes.
+      </li>
+      <li><strong>Never in local storage</strong>, never in cookies, never in the URL.</li>
+      <li>
+        The token is attached <strong>only</strong> to requests whose origin is exactly
+        <code>api.github.com</code>.
+      </li>
+      <li>
+        The token field is cleared as soon as verification succeeds, and tokens are stripped from
+        any error logs.
+      </li>
+    </ul>
+  </section>
+
+  <section id="secret-check">
+    <h2>The secret check</h2>
+    <p>
+      Before a command is saved, CmdVault scans it for things that look like credentials. If it
+      finds one, <strong>Save stays disabled</strong> and the match is highlighted. One click
+      replaces it with <code>{{ '{{' }}API_KEY{{ '}}' }}</code
+      >, which you fill in at copy time and which is never stored. Imported files are scanned too:
+      anything that looks like a secret is replaced with
+      <code>{{ '{{' }}API_KEY{{ '}}' }}</code> before it reaches your gist.
+    </p>
+    <h3>What it looks for</h3>
+    <ul>
+      @for (pattern of patterns; track pattern) {
+        <li>{{ pattern }}</li>
+      }
+    </ul>
+    <p>
+      The check runs entirely in your browser. It can’t catch every possible secret, so treat it as
+      a safety net, not a guarantee.
+    </p>
+  </section>
+
+  <section id="input">
+    <h2>Input validation</h2>
+    <p>
+      Everything you type, import or load from your gist is treated as untrusted text. Angular
+      escapes it whenever it is shown, and CmdVault never renders it as HTML. On top of that:
+    </p>
+    <ul>
+      <li>
+        <strong>Titles, notes and tags</strong> reject HTML tags, <code>javascript:</code> links and
+        inline event handlers. Doc-style placeholders such as <code>&lt;branch&gt;</code> are fine.
+      </li>
+      <li><strong>Tags</strong> may only use letters, numbers and <code>. _ + # -</code>.</li>
+      <li>
+        <strong>Hidden characters</strong> — right-to-left overrides, zero-width spaces and control
+        characters — are blocked in the editor, because they can make a command run something
+        different from what you see. One click removes them.
+      </li>
+      <li>
+        <strong>Placeholder values</strong> can’t contain line breaks or hidden characters, so
+        filling one in can’t sneak an extra command into what you paste into a terminal.
+      </li>
+      <li>
+        <strong>Imports and the gist itself</strong> are cleaned when loaded: markup and hidden
+        characters are stripped, lengths are capped and unsafe tags are dropped.
+      </li>
+      <li>
+        <strong>The source code</strong> is checked on every build for APIs that bypass Angular’s
+        protection (such as <code>innerHTML</code> or <code>bypassSecurityTrust</code>) and for
+        hidden characters.
+      </li>
+    </ul>
+  </section>
+
+  <section id="sync">
+    <h2>Saving and sync</h2>
+    <ul>
+      <li>Changes are saved about 1.5 seconds after you stop editing.</li>
+      <li>Before each save, CmdVault fetches the latest vault and merges it command by command.</li>
+      <li>
+        If the same command changed on two devices, the newer edit wins and the other is kept as a
+        <strong>“conflicted copy”</strong> — nothing is silently lost.
+      </li>
+      <li>Only one browser tab saves at a time, and other tabs refresh when it finishes.</li>
+      <li>Deletes are remembered for 30 days so a stale device can’t bring a command back.</li>
+    </ul>
+  </section>
+
+  <section id="browser">
+    <h2>Browser protections</h2>
+    <ul class="check-list">
+      <li>
+        Commands are always rendered as plain text — never as HTML — so a saved command can’t run
+        script.
+      </li>
+      <li>
+        A strict Content Security Policy with Trusted Types limits scripts to our own files and
+        network requests to GitHub. It is being rolled out in report-only mode first, then enforced.
+      </li>
+      <li>No third-party scripts, analytics or CDNs; fonts are self-hosted.</li>
+      <li>The site can’t be embedded in other sites’ frames (clickjacking protection).</li>
+      <li>HTTPS is enforced with HSTS, plus <code>nosniff</code> and a strict referrer policy.</li>
+      <li>Your vault pages are marked <code>noindex</code> so search engines never list them.</li>
+    </ul>
+  </section>
+
+  <section id="encryption">
+    <h2>Encryption</h2>
+    <p>
+      <strong>Coming soon.</strong> Optional end-to-end encryption will let you lock the vault with
+      a passphrase so that anyone with the gist link sees only ciphertext. The key will be derived
+      in your browser (PBKDF2-SHA256, 600,000 iterations) and used with AES-GCM-256 via Web Crypto.
+      It will never leave your device.
+    </p>
+    <p>Until then, assume anyone with your gist’s link can read every command in it.</p>
+  </section>
+
+  <section id="limits">
+    <h2>What we can’t protect</h2>
+    <ul>
+      <li><strong>Someone who has your gist link</strong> can read the vault.</li>
+      <li>
+        <strong>A compromised computer or malicious browser extension</strong> can read anything on
+        the page, including the token while the tab is open.
+      </li>
+      <li>
+        <strong>A compromised GitHub account</strong> exposes the gist and lets an attacker create
+        new tokens.
+      </li>
+      <li>
+        <strong>Gist history</strong> keeps earlier versions — removing a secret later doesn’t erase
+        it from history.
+      </li>
+      <li><strong>GitHub itself</strong> can access gists it hosts.</li>
+    </ul>
+  </section>
+
+  <section id="checklist">
+    <h2>Best practices</h2>
+    <ul class="check-list">
+      <li>Use a fine-grained token with Gists access only and a short expiry.</li>
+      <li>Turn on two-factor authentication for your GitHub account.</li>
+      <li>Keep real secrets in a password manager, not in commands — use placeholders.</li>
+      <li>Don’t tick “Remember for this tab” on shared or public computers.</li>
+      <li>Sign out when you’re done on a shared machine.</li>
+      <li>For extra separation, use a dedicated GitHub account just for CmdVault.</li>
+    </ul>
+  </section>
+
+  <section id="leaked">
+    <h2>If your token leaks</h2>
+    <ol>
+      <li>
+        Revoke it right away:
+        <a href="https://github.com/settings/personal-access-tokens" rel="noopener"
+          >fine-grained tokens</a
+        >
+        or <a href="https://github.com/settings/tokens" rel="noopener">classic tokens</a>.
+      </li>
+      <li>
+        Check your gists for anything unexpected at
+        <a href="https://gist.github.com/" rel="noopener">gist.github.com</a>.
+      </li>
+      <li>
+        Review your account’s
+        <a href="https://github.com/settings/security-log" rel="noopener">security log</a>.
+      </li>
+      <li>Create a new token and <a routerLink="/app/connect">reconnect CmdVault</a>.</li>
+    </ol>
+    <p>
+      If a secret was ever saved in your vault, rotate that secret too — it remains in the gist’s
+      revision history.
+    </p>
+  </section>
+
+  <section id="report">
+    <h2>Report a vulnerability</h2>
+    <p>
+      Found a security problem? Please <strong>don’t open a public issue</strong>. Report it
+      privately through GitHub’s
+      <a [href]="advisoryUrl" rel="noopener">private vulnerability reporting</a> instead. Include
+      the steps to reproduce, what an attacker could do, and the browser you used.
+    </p>
+    <p>
+      We aim to acknowledge reports within a few days, keep you updated while we fix the problem,
+      and credit you in the release notes if you’d like.
+    </p>
+  </section>
+</app-doc-layout>
